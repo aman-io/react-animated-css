@@ -94,38 +94,39 @@ const isLteIE9 = (() => {
  *
  * @type {Object}
  */
+
+const getNewState = ({
+  isVisible,
+  animationIn,
+  animationOut,
+  animationInDuration,
+  animationOutDuration,
+  animationInDelay,
+  animationOutDelay
+}) => isVisible ? ({
+  animation: animationIn,
+  duration: animationInDuration,
+  delay: animationInDelay
+}) : ({
+  animation: animationOut,
+  duration: animationOutDuration,
+  delay: animationOutDelay
+});
+
 export class Animated extends React.Component {
   constructor(props) {
     super(props);
-    this.state = props.animateOnMount ? this.getNewState(props) : {};
+    this.state = props.animateOnMount ? getNewState(props) : {};
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
     const { isVisible: nextIsVisible } = nextProps
     const { isVisible: prevIsVisible } = prevState
     if (nextIsVisible !== prevIsVisible) {
-      return this.getNewState({...prevState, ...nextProps});
+      return getNewState({...prevState, ...nextProps});
     }
     return {}
   }
-
-  getNewState = ({
-                   isVisible,
-                   animationIn,
-                   animationOut,
-                   animationInDuration,
-                   animationOutDuration,
-                   animationInDelay,
-                   animationOutDelay
-                 }) => isVisible ? ({
-    animation: animationIn,
-    duration: animationInDuration,
-    delay: animationInDelay
-  }) : ({
-    animation: animationOut,
-    duration: animationOutDuration,
-    delay: animationOutDelay
-  });
 
   render() {
     const {children, style, isVisible, innerRef, className} = this.props;
