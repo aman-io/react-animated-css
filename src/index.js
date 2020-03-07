@@ -109,7 +109,7 @@ export class Animated extends React.Component {
     return {}
   }
 
-  static getNewState = ({
+  getNewState = ({
                    isVisible,
                    animationIn,
                    animationOut,
